@@ -49,7 +49,7 @@ jobs:
           mvn test -Dtest=BenchmarkTest -B || echo "Benchmark tests failed, but continuing..."
 
       - name: Upload benchmark results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: benchmark-results
