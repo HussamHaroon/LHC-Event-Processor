@@ -1,5 +1,8 @@
 # LHC Event Processor
 
+![CI Pipeline](https://github.com/IamAntiHero/LHC-Event-Processor/workflows/CI%20CD%20Pipeline/badge.svg)
+![CodeQL](https://github.com/IamAntiHero/LHC-Event-Processor/workflows/CodeQL%20Security%20Scan/badge.svg)
+![Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen)
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1-green)
@@ -18,6 +21,7 @@
 - [Tech Stack](#tech-stack)
 - [Quick Start](#quick-start)
 - [Performance Benchmarks](#performance-benchmarks)
+- [CI/CD Pipeline](#cicd-pipeline)
 - [Design Patterns](#design-patterns)
 - [Engineering Decisions](#engineering-decisions)
 - [Project Structure](#project-structure)
@@ -238,6 +242,71 @@ The system was benchmarked across 5 scenarios to measure throughput, memory usag
 | Top 10 High-Energy Events | 8-12 ms | Uses `idx_energy_gev` |
 | Statistics Query | < 100 ms | Full table scan |
 | Count High-Energy Events | < 20 ms | Partial index scan |
+
+---
+
+## 🚀 CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+### Continuous Integration (CI)
+
+The CI pipeline runs on every push and pull request to ensure code quality and stability:
+
+- ✅ **Automated Build & Compilation**: Maven compiles and packages the application
+- ✅ **Unit & Integration Tests**: Full test suite with PostgreSQL service container
+- ✅ **Test Coverage Reporting**: JaCoCo generates coverage reports with 80% threshold
+- ✅ **Code Quality Checks**:
+  - Checkstyle with Google Java Style guidelines
+  - SpotBugs for static bug detection
+  - Reports uploaded as build artifacts
+- ✅ **CodeQL Security Scanning**:
+  - Runs on every push and PR to main branch
+  - Weekly scheduled scans
+  - Automatic vulnerability alerts in GitHub Security tab
+- ✅ **Performance Benchmarks**:
+  - Runs on main branch pushes
+  - Manual trigger available via `workflow_dispatch`
+  - Results uploaded as artifacts
+
+### Continuous Deployment (CD)
+
+The CD pipeline automates the release process:
+
+- 🐳 **Docker Image Builds**:
+  - Triggers on version tags (`v*.*.*`)
+  - Pushes to GitHub Container Registry (ghcr.io)
+  - Tags: semantic version, major.minor, major, and `latest`
+- 📦 **GitHub Releases**:
+  - Automatic release creation on tags
+  - Includes JAR artifacts and docker-compose.yml
+  - Auto-generated release notes
+- 🏷️ **Semantic Versioning**: Follows semver.org specification
+
+### Dependency Management
+
+- 🤖 **Dependabot**: Automated dependency updates
+  - Weekly checks for Maven dependencies
+  - Weekly checks for GitHub Actions
+  - Auto-creates PRs with changelog
+  - Labeled for easy review
+
+### Workflows Overview
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| CI/CD Pipeline | Push/PR | Build, test, coverage |
+| CodeQL Security Scan | Push/PR/Weekly | Security vulnerability detection |
+| CD Pipeline | Release Tags | Docker builds and releases |
+| Performance Benchmarks | Push/Manual | Performance testing |
+| Dependabot | Weekly schedule | Dependency updates |
+
+### Status Badges
+
+All workflows are monitored via badges at the top of this README:
+- CI/CD Pipeline status
+- CodeQL security scan status
+- Test coverage badge (80% threshold)
 
 ---
 
