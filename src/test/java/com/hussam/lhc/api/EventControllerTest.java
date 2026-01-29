@@ -243,7 +243,7 @@ class EventControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        assertNotNull(result1);
-        assertNotNull(result2);
+        assertTrue(result1 != null && !result1.isEmpty());
+        assertTrue(result2 != null && !result2.isEmpty());
     }
 }
