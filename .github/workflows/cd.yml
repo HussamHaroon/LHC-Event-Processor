@@ -50,10 +50,10 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.VERSION }}
-            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.VERSION }}.0
-            ghcr.io/${{ github.repository }}:${{ steps.version.outputs.VERSION }}.0
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/iamantiihero/lhc-event-processor:${{ steps.version.outputs.VERSION }}
+            ghcr.io/iamantiihero/lhc-event-processor:${{ steps.version.outputs.VERSION }}.0
+            ghcr.io/iamantiihero/lhc-event-processor:${{ steps.version.outputs.VERSION }}
+            ghcr.io/iamantiihero/lhc-event-processor:latest
           labels: |
             org.opencontainers.image.title=LHC Event Processor
             org.opencontainers.image.description=High-throughput particle data ingestion system
@@ -71,7 +71,7 @@ jobs:
 
             ### Docker Image
             ```bash
-            docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+            docker pull ghcr.io/iamantiihero/lhc-event-processor:${{ github.ref_name }}
             ```
 
             ### Changes
