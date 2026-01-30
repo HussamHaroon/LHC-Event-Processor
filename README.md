@@ -41,7 +41,7 @@ The LHC Event Processor is a high-throughput, multi-threaded system designed to 
 
 This project demonstrates professional-grade software engineering concepts including concurrent programming using Java's `java.util.concurrent` framework, producer-consumer patterns, streaming I/O for memory efficiency, batch database operations, and REST API development with Spring Boot. The architecture is specifically designed to handle the scale and complexity of particle physics data processing, where millions of events must be processed in real-time with strict memory and performance constraints.
 
-The system achieves over **40,000 events/second** processing throughput while maintaining low memory footprint through bounded queues and streaming data processing. This performance level makes it suitable for integration with real CERN detector systems, where data ingestion speed and reliability are critical for physics research.
+The system achieves over **5,000 events/second** processing throughput while maintaining low memory footprint through bounded queues and streaming data processing. This performance level makes it suitable for integration with real CERN detector systems, where data ingestion speed and reliability are critical for physics research.
 
 ---
 
