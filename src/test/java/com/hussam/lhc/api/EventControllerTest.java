@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
@@ -23,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
+@Import(com.hussam.lhc.UnifiedTestConfig.class)
 @DisplayName("EventController Tests")
 class EventControllerTest {
 
@@ -144,27 +148,27 @@ class EventControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/statistics should return 200")
+    @DisplayName("GET /api/events/statistics should return 200")
     void testGetStatistics_Returns200() throws Exception {
-        mockMvc.perform(get("/api/statistics")
+        mockMvc.perform(get("/api/events/statistics")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("GET /api/statistics should have correct content type")
+    @DisplayName("GET /api/events/statistics should have correct content type")
     void testGetStatistics_HasCorrectContentType() throws Exception {
-        mockMvc.perform(get("/api/statistics")
+        mockMvc.perform(get("/api/events/statistics")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("GET /api/statistics should return valid statistics")
+    @DisplayName("GET /api/events/statistics should return valid statistics")
     void testGetStatistics_ReturnsValidStatistics() throws Exception {
-        mockMvc.perform(get("/api/statistics")
+        mockMvc.perform(get("/api/events/statistics")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalEvents").exists())
@@ -174,9 +178,9 @@ class EventControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/statistics should have correct data types")
+    @DisplayName("GET /api/events/statistics should have correct data types")
     void testGetStatistics_DataTypesAreCorrect() throws Exception {
-        mockMvc.perform(get("/api/statistics")
+        mockMvc.perform(get("/api/events/statistics")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalEvents").isNumber())

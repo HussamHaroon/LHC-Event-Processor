@@ -7,6 +7,8 @@ import com.hussam.lhc.model.ParticleEvent;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.MethodOrderer;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.BufferedWriter;
 import java.nio.file.Files;
@@ -22,6 +24,8 @@ import java.util.logging.SimpleFormatter;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("test")
+@Import(com.hussam.lhc.UnifiedTestConfig.class)
 public class BenchmarkTest {
 
     private static final Logger LOGGER = Logger.getLogger(BenchmarkTest.class.getName());
@@ -168,7 +172,8 @@ public class BenchmarkTest {
         ScheduledExecutorService monitorExecutor = null;
 
         try {
-            PipelineManager manager = new PipelineManager(4, 4, 20000);
+            com.hussam.lhc.UnifiedTestConfig.InMemoryTestDatabase testDbManager = new com.hussam.lhc.UnifiedTestConfig.InMemoryTestDatabase();
+            PipelineManager manager = new PipelineManager(4, 4, 20000, testDbManager);
             Path testFile = createTestFile(tempDir, STRESS_TEST_EVENTS, "stress_test.csv");
 
             monitorExecutor = Executors.newSingleThreadScheduledExecutor();
@@ -355,7 +360,7 @@ public class BenchmarkTest {
         ScheduledExecutorService monitorExecutor = null;
 
         try {
-            PipelineManager manager = new PipelineManager(producerThreads, consumerThreads, queueCapacity);
+            PipelineManager manager = new PipelineManager(producerThreads, consumerThreads, queueCapacity, DatabaseManager.getInstance());
 
             monitorExecutor = Executors.newSingleThreadScheduledExecutor();
             queueMonitor = new QueueMonitor(manager, maxQueueSizeObserved);

@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Manages database connections and operations for storing particle events.
@@ -21,13 +25,20 @@ import java.util.logging.Logger;
  * <strong>WARNING:</strong> Database credentials should use environment variables in production.
  * </p>
  */
+@Component
+@Profile("!test")
 public class DatabaseManager {
     private static final Logger LOGGER = Logger.getLogger(DatabaseManager.class.getName());
     private HikariDataSource dataSource;
 
-    private static final String JDBC_URL = System.getenv().getOrDefault("JDBC_URL", "jdbc:postgresql://localhost:5432/lhc_events");
-    private static final String JDBC_USER = System.getenv().getOrDefault("JDBC_USER", "postgres");
-    private static final String JDBC_PASSWORD = System.getenv().getOrDefault("JDBC_PASSWORD", "password");
+    @Value("${spring.datasource.url}")
+    private String jdbcUrl;
+
+    @Value("${spring.datasource.username}")
+    private String jdbcUser;
+
+    @Value("${spring.datasource.password}")
+    private String jdbcPassword;
 
     /**
      * Constructs a new DatabaseManager and initializes the database connection and schema.
@@ -36,6 +47,10 @@ public class DatabaseManager {
      * </p>
      */
     public DatabaseManager() {
+    }
+
+    @PostConstruct
+    public void init() {
         initializeConnectionPool();
         initializeSchema();
     }
@@ -58,9 +73,9 @@ public class DatabaseManager {
      */
     private void initializeConnectionPool() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(JDBC_URL);
-        config.setUsername(JDBC_USER);
-        config.setPassword(JDBC_PASSWORD);
+        config.setJdbcUrl(jdbcUrl);
+        config.setUsername(jdbcUser);
+        config.setPassword(jdbcPassword);
 
         // Pool sizing: 20 connections balances throughput with database load.
         // 5 idle connections ensures quick response to sudden traffic spikes.
