@@ -788,6 +788,6 @@ copies or substantial portions of the Software.
 
 **Hussam** - *Software Engineer*
 
-- GitHub: [@IamAntiHero](https://github.com/IamAntiHero)
+- GitHub: [@HussamHaroon](https://github.com/HussamHaroon)
 - LinkedIn: [Hussam Haroon](https://linkedin.com/in/hussam-haroon-dev)
 
